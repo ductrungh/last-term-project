@@ -1,0 +1,236 @@
+/* Cookpad-like clean UI with Cookpad Orange accent */
+:root{
+  --bg:#fafafa;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#FF7F00; /* Cookpad orange */
+  --shadow: 0 6px 20px rgba(16,24,40,0.06);
+  --radius:12px;
+  --maxWidth:1100px;
+}
+
+*{
+  box-sizing:border-box
+}
+html,body{
+  height:100%
+}
+body{
+  margin:0;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background:var(--bg);
+  color:#111827;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* NAV */
+.nav{
+  background:#fff;
+  border-bottom:1px solid #eee;
+  position:sticky;
+  top:0;
+  z-index:40;
+}
+.nav-inner{
+  max-width:var(--maxWidth);
+  margin:0 auto;
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.menu {
+  list-style: none;      /* Bỏ dấu chấm */
+  display: flex;         /* Hiển thị theo chiều ngang */
+  gap: 20px;             /* Tạo khoảng cách giữa các mục */
+  margin: 0;
+  padding: 0;
+  align-items: center;   /* Căn giữa theo trục dọc */
+}
+
+.menu li a {
+  text-decoration: none;
+  color: #374151;
+  font-weight: 500;
+}
+
+.brand{
+  color:var(--accent);
+  font-weight:700;
+  text-decoration:none;
+  font-size:1.2rem
+}
+.nav a{
+  color:#374151;
+  text-decoration:none;
+  margin-left:14px
+}
+
+/* CONTAINER */
+.container{
+  max-width:var(--maxWidth);
+  margin:22px auto;
+  padding:0 18px
+}
+
+/* HERO / SEARCH */
+.hero{
+  text-align:center;
+  padding:28px 0 10px
+}
+.hero h1{
+  font-size:1.9rem;
+  margin:6px 0
+}
+.muted{
+  color:var(--muted)
+}
+.search-form{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  margin-top:16px
+}
+.search-form input[type="search"]{
+  width:480px;
+  max-width:86vw;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid #e6e6e6;
+  font-size:15px
+}
+.btn{
+  border:0;
+  padding:10px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600
+}
+.primary{
+  background:var(--accent);
+  color:#fff;
+  box-shadow:var(--shadow)
+}
+
+/* TAGS */
+.tag-list{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin:12px 0
+}
+.tag{
+  background:#fff;
+  border-radius:999px;
+  padding:8px 12px;
+  box-shadow:var(--shadow);
+  cursor:pointer;
+  font-weight:500;
+  color:#111
+}
+
+/* GRID CARDS */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  gap:18px;
+  margin-top:18px
+}
+.card{
+  background:var(--card);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  transition:transform .18s ease
+}
+.card:hover
+{transform:translateY(-6px)
+}
+.card img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  display:block
+}
+.card-body{
+  padding:10px 12px
+}
+.card h3{
+  font-size:1rem;
+  margin:6px 0 8px
+}
+.card p{
+  margin:0;font-size:13px;
+  color:var(--muted)
+}
+.card .card-actions{
+  display:flex;gap:8px;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:8px
+}
+
+/* FEATURED (bigger card) */
+.featured .card img{
+  height:220px
+}
+
+/* RECIPE PAGE */
+.recipe-wrap{display:grid;
+  grid-template-columns:1fr;
+  gap:18px}
+@media(min-width:900px)
+{
+  .recipe-wrap{grid-template-columns: 420px 1fr;
+    align-items:start}
+  .recipe-wrap .hero-img{
+    height:420px;
+    object-fit:cover;
+    border-radius:12px
+  }
+}
+.recipe-meta{
+  background:var(--card);
+  padding:14px;
+  border-radius:12px;
+  box-shadow:var(--shadow)
+}
+.ingredients ul{
+  padding-left:18px
+}
+.instructions{
+  white-space:pre-wrap;
+  line-height:1.55
+}
+
+/* FOOTER */
+.footer{text-align:center;
+  padding:26px 0;
+  color:var(--muted);
+  font-size:14px;
+  margin-top:28px
+}
+
+/* SMALL SCREEN ADJUST */
+@media(max-width:600px){
+  .nav-inner{
+    padding:12px
+  }
+  .search-form{
+    flex-direction:column;
+    gap:8px
+  }
+  .search-form input{
+    width:100%
+  }
+  .grid{
+    grid-template-columns:repeat(auto-fill,minmax(160px,1fr))
+  }
+}
+.menu li a:active {
+  background: #e5e5e5; /* màu xám */
+  border-radius: 6px;
+  padding: 6px 10px;
+}

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Search — NutriCook</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body id="page-search">
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">NutriCook</a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="search.html">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="search-head">
+      <form id="searchFormPage" class="search-form">
+        <input id="searchInputPage" name="q" type="search" placeholder="Search ingredient or recipe name...">
+        <button type="submit" class="btn primary">Search</button>
+      </form>
+      <p id="searchMeta" class="muted"></p>
+    </section>
+
+    <section>
+      <div id="resultsGrid" class="grid"></div>
+      <p id="noResults" class="muted" style="display:none">No results found.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Made with hdt — uses TheMealDB</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
