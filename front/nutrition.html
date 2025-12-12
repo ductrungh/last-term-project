@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NutriCook — Daily Nutrition Picks</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body id="page-nutrition">
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">NutriCook</a>
+      <ul class="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="search.html">Search</a></li>
+        <li><a href="recipe.html">Recipe</a></li>
+        <li><a href="nutrition.html" class="active">Nutrition</a></li>
+        <li><a href="login.html">Log in/Sign Up</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Daily Healthy & Popular Foods</h1>
+      <p class="muted">Updated every day — based on real public dataset (TheMealDB).</p>
+    </section>
+
+    <section class="nutrition-section">
+      <h2>🥗 Today’s Healthy Picks</h2>
+      <div id="healthyGrid" class="grid"></div>
+    </section>
+
+    <section class="nutrition-section">
+      <h2>🔥 Popular Picks</h2>
+      <div id="popularGrid" class="grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Made with hdt — uses TheMealDB</p>
+  </footer>
+  <style>
+    body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #fafafa;
+  color: #222;
+}
+
+.nav {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 15px 0;
+}
+
+.nav-inner {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 20px;
+  color: #333;
+  text-decoration: none;
+}
+
+.menu {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+}
+
+.menu a.active {
+  color: #000;
+  font-weight: 700;
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 40px auto;
+}
+
+.hero h1 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.muted {
+  color: #666;
+}
+
+.grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.card-info {
+  padding: 12px;
+}
+
+.card-info h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+  margin-top: 40px;
+}
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-top: 1px solid #eee;
+}
+
+.btn-small {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.btn-view {
+  background: orange;
+  color: white;
+}
+
+.btn-view:hover {
+  background: orange;
+}
+
+.btn-save {
+  background: #e6e6e6;
+}
+
+.btn-save.saved {
+  background: gray;
+  color: white;
+}
+
+
+  </style>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+  // --------- Helper to create meal cards ----------
+  function createCard(meal) {
+    return `
+      <div class="card">
+        <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+        <div class="card-info">
+          <h3>${meal.strMeal}</h3>
+        </div>
+      </div>
+    `;
+  }
+
+  // ========== NUTRITION PAGE LOGIC ==========
+  if (document.body.id === "page-nutrition") {
+    loadHealthy();
+    loadPopular();
+  }
+
+  // --------- Load Healthy Meals ----------
+  async function loadHealthy() {
+    const url = "https://www.themealdb.com/api/json/v1/1/filter.php?c=Vegetarian";
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+
+      const healthyGrid = document.getElementById("healthyGrid");
+      healthyGrid.innerHTML = data.meals
+        .slice(0, 8) // lấy 8 món
+        .map(createCard)
+        .join("");
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  // --------- Load Popular Meals (Random Daily) ----------
+  async function loadPopular() {
+    const grid = document.getElementById("popularGrid");
+
+    // Lấy 6 random meals
+    let items = [];
+    for (let i = 0; i < 6; i++) {
+      const res = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
+      const data = await res.json();
+      items.push(data.meals[0]);
+    }
+
+    grid.innerHTML = items.map(createCard).join("");
+  }
+
+});
+document.addEventListener("DOMContentLoaded", () => {
+
+  // --------- Tạo card hoàn chỉnh ----------
+  function createCard(meal) {
+    return `
+      <div class="card">
+        <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+        <div class="card-info">
+          <h3>${meal.strMeal}</h3>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn-small btn-view" data-id="${meal.idMeal}">View</button>
+          <button class="btn-small btn-save" data-id="${meal.idMeal}">Save</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // ========== NUTRITION PAGE ==========
+  if (document.body.id === "page-nutrition") {
+    loadHealthy();
+    loadPopular();
+
+    // Lắng nghe click cho toàn page
+    document.body.addEventListener("click", (e) => {
+
+      // ---------- VIEW ----------
+      if (e.target.classList.contains("btn-view")) {
+        const mealID = e.target.getAttribute("data-id");
+        window.location.href = `detail.html?mealID=${mealID}`;
+      }
+
+      // ---------- SAVE ----------
+      if (e.target.classList.contains("btn-save")) {
+        e.target.textContent = "Saved";
+        e.target.classList.add("saved");
+      }
+    });
+  }
+
+  // --------- Load Healthy ----------
+  async function loadHealthy() {
+    const url = "https://www.themealdb.com/api/json/v1/1/filter.php?c=Vegetarian";
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+
+      const healthyGrid = document.getElementById("healthyGrid");
+      healthyGrid.innerHTML = data.meals
+        .slice(0, 8)
+        .map(createCard)
+        .join("");
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  // --------- Load Popular ----------
+  async function loadPopular() {
+    const grid = document.getElementById("popularGrid");
+
+    let items = [];
+    for (let i = 0; i < 6; i++) {
+      const res = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
+      const data = await res.json();
+      items.push(data.meals[0]);
+    }
+
+    grid.innerHTML = items.map(createCard).join("");
+  }
+
+});
+
+
+  </script>
+
+  <script src="app.js"></script>
+</body>
+</html>
